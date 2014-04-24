@@ -19,7 +19,11 @@ def process_melody(melody):
 	midi_array = []
 	diff_array = []	
 	for tick in melody:
-		midi_array.append(tick[0],freq_to_midi(tick[1]))
+		timescale = tick[0]
+		frequency = tick[1]
+		if frequency < 0:
+			frequency = 0
+		midi_array.append(timescale,freq_to_midi(frequency))
 	for x in xrange(0,len(midi_array)):
 		time1,freq1 = midi_array.x
 		print midi_array.x
