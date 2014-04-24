@@ -18,5 +18,5 @@ intense parts, has a method that can be called to insert the song into the datab
 
 	# returns top 10 matches
 	def get_matches(self):
-		# some code here ab
+		# some code here about getting the melody
 
