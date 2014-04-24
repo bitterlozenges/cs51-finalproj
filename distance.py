@@ -1,6 +1,11 @@
+# calculates frechet distance between two curves defined by a list
+# of coordinates in R^2 
 def frechet(song, hum):
+
+	# calculates euclidean distance in R^2
 	def euclid(p1,p2):
-		return ((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)**(0.5)	
+		return ((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)**(0.5)
+
 	min_list = []
 	for tick_h in hum:
 		min_val = euclid(tick_h,song[0])
@@ -10,7 +15,6 @@ def frechet(song, hum):
 				min_val = new_dist
 		min_list.append(min_val)
 	return sum(min_list)
-
 
 
 
