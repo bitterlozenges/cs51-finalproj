@@ -17,6 +17,8 @@ def process_melody(melody):
 	midi_array = []
 	diff_array = []	
 	for (timestamp,frequency) in melody:
+		if frequency < 0:
+			frequency = 0
 		midi_array.append(timestamp,freq_to_midi(frequency))
 	for x in xrange(0,len(midi_array)):
 		time1,freq1 = midi_array.x 
