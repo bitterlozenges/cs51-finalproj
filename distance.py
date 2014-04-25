@@ -32,7 +32,6 @@ def frechet(song, hum, starts):
 		frechet_list.append(sum(min_list))
 	# return the minimum frechet value for a hum matched to each section
 	# of a song
-	print frechet_list
 	return min(frechet_list)
 
 def frechet_plain(song,hum):
@@ -46,8 +45,6 @@ def frechet_plain(song,hum):
 			if new_dist < min_val:
 				min_val = new_dist
 		min_list.append(min_val)
-	print min_list
-	print sum(min_list)
 	return sum(min_list) 
 
 #tests
