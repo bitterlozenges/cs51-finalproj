@@ -24,8 +24,7 @@ def process_melody(melody):
 			if melody[x][1] > 0:
 				break 
 			else
-				melody.remove(melody[x])		
-	for x in xrange			
+				melody.remove(melody[x])			
 	# iterate over melody, zero negative frequencies and store as midi values			
 	for tick in melody:
 		timescale = tick[0]
@@ -40,9 +39,23 @@ def process_melody(melody):
 		time2,freq2 = midi_array[x+1]
 		diff_array.append((time1,freq2-freq1))
 	raise Exception('Not implemented')
-# from the melody array, selects start points which represent beginning of melodic lines
-def gen_starts(melody):
 
-	
+# from the melody array, selects start points which represent beginning of melodic lines
+# note: here we are using the constant of 2 seconds pause = end of melodic line
+def gen_starts(melody):
+	def len_silence = 0.0
+	def last_melody = 0.0
+	def starts = []
+	for x in xrange(0,len(melody)):
+		if melody[x][1] > 0:
+			if len_silence > 2.0:
+				starts.append(x)
+			len_silence = 0.0
+			last_melody = melody[x][0]
+		else: 
+			len_silence = melody[x][0] - last_melody 				
+	return starts			
+
+
 def freq_to_midi(freq):
 	return 69 + 12*math.log[(freq/440),2]
