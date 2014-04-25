@@ -37,9 +37,9 @@ def process_melody(melody):
 # from the melody array, selects start points which represent beginning of melodic lines
 # note: here we are using the constant of 2 seconds pause = end of melodic line
 def gen_starts(melody):
-	def len_silence = 0.0
-	def last_melody = 0.0
-	def starts = []
+	len_silence = 0.0
+	last_melody = 0.0
+	starts = []
 	for x in xrange(0,len(melody)):
 		if melody[x][1] > 0:
 			if len_silence > 2.0:
