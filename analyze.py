@@ -40,7 +40,7 @@ def gen_starts(melody):
 	len_silence = 0.0
 	last_melody = 0.0
 	starts = []
-	for x in xrange(0,len(melody)-1):
+	for x in xrange(0,len(melody)):
 		if melody[x][1] > 0:
 			if len_silence > 2.0:
 				starts.append(x)
