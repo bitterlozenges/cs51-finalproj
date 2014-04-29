@@ -1,5 +1,6 @@
 import wave
 from analyze import *
+from sqlalchemy import *
 
 class Song:
 	"""
@@ -8,14 +9,16 @@ class Song:
 	"""
 	def __init__(self,file_path,melody=None,starts=None):
 		self.file_path = file_path
+		# if the melody parameter was not passed, generate it
 		if melody = None:
 			self.gen_melody()
 		else:
 			self.melody = melody
-			if starts = None:
-				self.gen_starts()
-			else:
-				self.starts = starts
+		# if the starts parameter was not passed, generate it.
+		if starts = None:
+			self.gen_starts()
+		else:
+			self.starts = starts
 		return
 
 	# stores the tuple list of (time,midi_val) from the file path in melody
@@ -23,12 +26,21 @@ class Song:
 		self.melody = get_melody(file_path)
 		return
 
+	# from a given melody, generates the "starts"
 	def gen_starts(self):
-		self.starts = #some stuff here
+		self.starts = get_starts(self.melody)
+		return
 
 	# returns top 10 matches
 	def get_matches(self):
+		dict_songs = {}
 		# some code here about getting the melody
+		#for row in songs
+		#	song = to_song(row['object'])
+		#	for start in song.starts
+		#	do the frechet distance
+		#	store the song name and frechet distance stuff
+		# get the top 10 shortest lengths of song in the dictionary
 		return
 
 # object hook for getting a song object from a json string
@@ -41,3 +53,23 @@ def as_song(dic):
 # returns a song given a json string
 def to_song(str):
 	return json.loads(str,object_hook=as_song)
+
+
+
+
+"""
+This deals with database creation.
+"""
+#create a database for our song objects
+db = create_engine('sqlite:///finalproj.db')
+
+db.echo = False  # Try changing this to True and see what happens
+
+metadata = MetaData(db)
+
+songs = Table('songs', metadata,
+    Column('file_path', String(40), primary_key=True),
+    Column('title', String(40)),
+    Column('object', String),
+)
+songs.create()
