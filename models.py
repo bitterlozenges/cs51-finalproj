@@ -2,13 +2,8 @@ import wave
 from analyze import *
 from database import 
 
-
-class Song:
-	"""
-	Represents a song, that, when initialized, generates the spectrograph, the array of 
-	intense parts, has a method that can be called to insert the song into the database
-	"""
-	def __init__(self,file_path,melody=None,starts=None):
+class Music:
+	def __init__(self,file_path,melody=None):
 		self.file_path = file_path
 
 		# if the melody parameter was not passed, generate it
@@ -16,15 +11,9 @@ class Song:
 			self.gen_melody()
 		else:
 			self.melody = melody
-		# if the starts parameter was not passed, generate it.
-		if starts == None:
-			self.gen_starts()
-		else:
-			self.starts = starts
 
 		return
 
-	# stores the tuple list of (time,midi_val) from the file path in melody
 	def gen_melody(self):
 		self.melody = get_melody(file_path)
 		return
@@ -33,10 +22,35 @@ class Song:
 	def gen_diffs(self):
 		self.diffs = process_melody(self.melody)
 		return
+
+
+
+
+class Song(Music):
+	"""
+	Represents a song, that, when initialized, generates the spectrograph, the array of 
+	intense parts, has a method that can be called to insert the song into the database
+	"""
+	def __init__(self,file_path,melody=None,starts=None):
+		self.file_path = file_path
+
+		super(file_path,melody).__init__()
+		
+		# if the starts parameter was not passed, generate it.
+		if starts == None:
+			self.gen_starts()
+		else:
+			self.starts = starts
+
+		return
+
 	# array of indices at which start points occur
 	def gen_starts(self):
 		self.starts = get_starts(self.melody)
 		return
+
+	
+class Hum(Music):
 
 	# returns top 10 matches
 	def get_matches(self):
