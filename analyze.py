@@ -4,7 +4,12 @@ import csv
 import sys
 import math
 
-#from the filepath 'file' and return an array containing the melody information
+#constant for how long a pause should be before considering it a start point
+pause = 2.0
+
+
+
+#from the filepath 'file', return a (float,float) array containing the melody information
 def get_melody(file):
 	melody_array = []
 	with open(file,"rb") as raw_melody:
@@ -14,7 +19,7 @@ def get_melody(file):
 			melody_array.append(tick)
 	return melody_array
 
-#from the melody file, generate an array of midi values collected at regular intervals
+#from the melody file, generate a float array of midi values collected at regular intervals
 def process_melody(melody):
 	midi_array = []
 	diff_array = []	
@@ -34,15 +39,19 @@ def process_melody(melody):
 		time2,freq2 = midi_array[x+1]
 		diff_array.append((time1,freq2-freq1))
 	return diff_array
-# from the melody array, selects start points which represent beginning of melodic lines
-# note: here we are using the constant of 2 seconds pause = end of melodic line
-def gen_starts(melody):
+
+"""
+from the melody array, returns int array of indicies of start points which 
+represent beginning of melodic lines
+note: here we are using the constant of 2 seconds pause = end of melodic line
+"""
+def get_starts(melody):
 	len_silence = 0.0
 	last_melody = 0.0
 	starts = []
 	for x in xrange(0,len(melody)):
 		if melody[x][1] > 0:
-			if len_silence > 2.0:
+			if len_silence > pause:
 				starts.append(x)
 			len_silence = 0.0
 			last_melody = melody[x][0]
@@ -50,6 +59,7 @@ def gen_starts(melody):
 			len_silence = melody[x][0] - last_melody 				
 	return starts			
 
+# from a float freq return the corresponding float for midi value
 def freq_to_midi(freq):
 	if freq < 0:
 		return 0
