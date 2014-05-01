@@ -1,6 +1,7 @@
 from sqlalchemy import Table, Column, Integer, String, Text
 from sqlalchemy.orm import mapper
-from database import metadata, db_session
+import json
+from database import db_session, metadata
 from analyze import *
 #for the split function
 import re
@@ -25,12 +26,12 @@ class Music:
 
 	# generates the melody from the file_path and stores as a json string
 	def gen_melody(self):
-		self.melody = json.dumps(process_melody(get_melody(self.melody)[1]))
+		self.melody = json.dumps(process_melody(get_melody(self.file_path))[1])
 		return
 
 	# stores the first differences as a json string	
 	def gen_diffs(self):
-		self.diffs = json.dumps(process_melody(get_melody(self.melody)[0]))
+		self.diffs = json.dumps(process_melody(get_melody(self.file_path))[0])
 		return
 
 	def str_to_arr(self):
@@ -45,7 +46,11 @@ class Song(Music):
 	points of a song, and generates the difference array
 	"""
 	def __init__(self,file_path,melody=None,diffs=None,starts=None):
+<<<<<<< HEAD
 		Music.__init__(file_path,melody,diffs)
+=======
+		Music.__init__(self,file_path,melody,diffs)
+>>>>>>> 1cd60129156b043e198856d3ed4d4b28df68fa0c
 		
 		# if the starts parameter was not passed, generate it.
 		if starts == None:
@@ -56,10 +61,18 @@ class Song(Music):
 
 	# array of indices at which start points occur
 	def gen_starts(self):
-		self.starts = json.dumps(get_starts(self.melody))
+		self.starts = json.dumps(get_starts(json.loads(self.melody)))
 		return
 
+songs = Table('songs', metadata,
+    Column('id', Integer, primary_key=True),
+    Column('file_path', String(50), unique=True),
+    Column('melody', Text),
+    Column('diffs', Text),
+    Column('starts', Text)
+)
 
+mapper(Song, songs)
 
 
 

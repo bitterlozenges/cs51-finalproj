@@ -61,7 +61,7 @@ def get_starts(melody):
 
 # from a float freq return the corresponding float for midi value
 def freq_to_midi(freq):
-	if freq < 0:
+	if freq <= 0:
 		return 0
 	else:
 		return 69 + 12*math.log((freq/440),2)
