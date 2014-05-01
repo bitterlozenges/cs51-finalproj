@@ -1,6 +1,9 @@
 #Project-specific
-.csv
-file_list.txt
+song_database/**
+*.csv
+*.mp3
+*.wav
+*.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
