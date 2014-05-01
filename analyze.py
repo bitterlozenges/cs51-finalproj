@@ -38,7 +38,7 @@ def process_melody(melody):
 		time1,freq1 = midi_array[x]
 		time2,freq2 = midi_array[x+1]
 		diff_array.append((time1,freq2-freq1))
-	return diff_array
+	return (midi_array, diff_array)
 
 """
 from the melody array, returns int array of indicies of start points which 
