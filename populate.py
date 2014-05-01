@@ -2,7 +2,7 @@ from sqlalchemy import *
 from analyze import *
 from models import Song #get database, songs table, and Song class
 from database import db_session
-from os.path import *
+#from os.path import *
 
 #the path for the file containing the list of files to be put in the array
 folder_path = "file_list.txt"
@@ -10,7 +10,7 @@ folder_path = "file_list.txt"
 #method for inserting a single song into our db given the file_path
 def insert_song_db(file):
 	# if the file exists
-	if os.path.isfile(fname):
+	if true: #os.path.isfile(fname):
 		song = Song(file)
 		#add the song to the current session
 		db_session.add(song)
