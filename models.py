@@ -46,11 +46,8 @@ class Song(Music):
 	points of a song, and generates the difference array
 	"""
 	def __init__(self,file_path,melody=None,diffs=None,starts=None):
-<<<<<<< HEAD
-		Music.__init__(file_path,melody,diffs)
-=======
+
 		Music.__init__(self,file_path,melody,diffs)
->>>>>>> 1cd60129156b043e198856d3ed4d4b28df68fa0c
 		
 		# if the starts parameter was not passed, generate it.
 		if starts == None:
