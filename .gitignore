@@ -13,6 +13,7 @@ sonic_annotator/**
 *.dll
 *.exe
 .DS_Store
+*.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
