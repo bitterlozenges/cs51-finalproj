@@ -85,7 +85,7 @@ class Hum(Music):
 		for song in dict_songs:
 			diff = frechet(song.melody,str_to_arr(self.melody),song.starts)
 			title = title_from_path(song.file_path)
-			song_diffs.append(title,diff)
+			song_diffs.append((title,diff))
 		
 		# get the top 10 shortest lengths of song in the dictionary in ranked order
 		def getKey(item):
