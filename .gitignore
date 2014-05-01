@@ -1,13 +1,17 @@
 #Project-specific
 song_database/**
+*.csv
+*.mp3
+*.wav
+*.db
 sonic_annotator/**
-.cat
-.n3
-.csv
-.mp3
-.wav
-.dll
-.exe
+*.cat
+*.n3
+*.csv
+*.mp3
+*.wav
+*.dll
+*.exe
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
