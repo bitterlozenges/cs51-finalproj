@@ -56,7 +56,7 @@ class Hum(Music):
 	def get_matches(self):
 		dict_songs = {}
 		# some code here about getting the melody
-		#for row in songs
+		# for row in songs
 		#	song = to_song(row['object'])
 		#	for start in song.starts
 		#	do the frechet distance
