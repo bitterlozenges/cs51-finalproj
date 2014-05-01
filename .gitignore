@@ -1,6 +1,8 @@
 #Project-specific
 song_database/**
-process/**
+sonic_annotator/**
+.cat
+.n3
 .csv
 .mp3
 .wav
