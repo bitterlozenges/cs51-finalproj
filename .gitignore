@@ -1,6 +1,7 @@
 #Project-specific
 song_database/**
-process/**
+.cat
+.n3
 .csv
 .mp3
 .wav
