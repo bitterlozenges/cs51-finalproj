@@ -115,5 +115,4 @@ def as_song(dic):
 # returns a song given a json string
 def to_song(str):
 	return json.loads(str,object_hook=as_song)
-<<<<<<< HEAD
 '''
