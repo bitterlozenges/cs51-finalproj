@@ -4,6 +4,14 @@ song_database/**
 *.mp3
 *.wav
 *.db
+sonic_annotator/**
+*.cat
+*.n3
+*.csv
+*.mp3
+*.wav
+*.dll
+*.exe
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
