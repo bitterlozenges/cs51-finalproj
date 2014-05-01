@@ -1,6 +1,7 @@
 import wave
 from analyze import *
 from database import 
+from distance import frechet
 
 class Music:
 	def __init__(self,file_path,melody=None):
@@ -23,6 +24,9 @@ class Music:
 		self.diffs = process_melody(self.melody)
 		return
 
+	def str_to_arr(self):
+		tmp = json.loads(self.melody)	
+		self.melody = tmp
 
 
 
@@ -50,19 +54,35 @@ class Song(Music):
 		return
 
 	
+
+	
 class Hum(Music):
 
 	# returns top 10 matches
 	def get_matches(self):
-		dict_songs = {}
-		# some code here about getting the melody
-		# for row in songs
-		#	song = to_song(row['object'])
-		#	for start in song.starts
+		
+		# gets dictionary of songs
+		dict_songs = Song.query.all()
+		song_diffs = []
+
+		# turn melody "strings" of each song object into an array 
+		for song in dict_songs:
+			song.str_to_arr
+
 		#	do the frechet distance
 		#	store the song name and frechet distance stuff
-		# get the top 10 shortest lengths of song in the dictionary
-		return
+		for song in dict_songs:
+			diff = frechet(song.melody,str_to_arr(self.melody),song.starts)
+			title = title_from_path(song.file_path)
+			song_diffs.append(title,diff)
+		
+		# get the top 10 shortest lengths of song in the dictionary in ranked order
+		def getKey(item):
+			item[1]
+
+		sorted_diffs = sorted(song_diffs, key = getKey)
+
+		return sorted_diffs[:10]
 
 # object hook for getting a song object from a json string
 def as_song(dic):
@@ -74,3 +94,5 @@ def as_song(dic):
 # returns a song given a json string
 def to_song(str):
 	return json.loads(str,object_hook=as_song)
+
+
