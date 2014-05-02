@@ -7,7 +7,7 @@ import math
 #constant for how long a pause should be before considering it a start point
 
 note = 0.25
-blip = 5.0
+blip = 0.1
 len_pause = 2.0
 len_start = 0.25
 pause = 0.5
