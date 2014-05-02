@@ -5,7 +5,7 @@ import sys
 import math
 
 #constant for how long a pause should be before considering it a start point
-pause = 2.0
+pause = 0.5
 
 
 
