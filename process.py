@@ -12,7 +12,7 @@ import platform
 # input_path should be unix filepath with "/" not "\"; if error, place hum audio file in the same directory as this python file
 def process(input_path, Hum=True):
 	# output filepath, needed to pull .csv file for matching
-	output_path = title_from_path(input_path) + "vamp_mtg-melodia_melodia_melody.csv"
+	output_path = title_from_path(input_path) + "_vamp_mtg-melodia_melodia_melody.csv"
 
 	# default database for Hums
 	db_path = "hum_database"
@@ -33,7 +33,7 @@ def process(input_path, Hum=True):
 
 	# build shell argument
 	shell_arg = os_path + " -d vamp:mtg-melodia:melodia:melody " + input_path + " -w csv --csv-basedir " + db_path
-	
+
 	# code obtained from subprocess documentation 
 	# https://docs.python.org/2/library/subprocess.html#module-subprocess
 	# runs shell argument
