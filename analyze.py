@@ -6,58 +6,83 @@ import math
 
 #constant for how long a pause should be before considering it a start point
 pause = 2.0
+note = 0.25
 
 
 
 #from the filepath 'file', return a (float,float) array containing the melody information
-def get_melody(file):
-	melody_array = []
+# in the form of (timescale, midiscore)
+def get_midi(file):
+	midi_array = []
 	with open(file,"rb") as raw_melody:
 		reader = csv.reader(raw_melody)
 		for row in reader:
-			tick = (float(row[0]),float(row[1]))
-			melody_array.append(tick)
-	return melody_array
+			# strips leading 0s
+			if float(row[1]) < 0:
+				continue
+			# converts frequency to midi score
+			tick = (float(row[0]),freq_to_midi(float(row[1])))
+			midi_array.append(tick)
+	return midi_array
 
-#from the melody file, generate a float array of midi values collected at regular intervals
-def process_melody(melody):
-	midi_array = []
+#from the midi array, generate a float array of midi value differences collected at regular intervals
+def diffs_midi(midi):
 	diff_array = []	
-	# strip all leading zeroes
-	if melody[0][1] <= 0:
-		while melody[0][1] <= 0:
-			melody.remove(melody[0])
-	# iterate over melody, zero negative frequencies and store as midi values			
-	for tick in melody:
-		timescale = tick[0]
-		frequency = tick[1]
-		new_tick = (timescale,freq_to_midi(frequency))
-		midi_array.append(new_tick)	
 	# get first differences of midi array	
-	for x in xrange(0,len(midi_array)-1):
-		time1,freq1 = midi_array[x]
-		time2,freq2 = midi_array[x+1]
+	for x in xrange(0,len(midi)-1):
+		time1,freq1 = midi[x]
+		time2,freq2 = midi[x+1]
 		diff_array.append((time1,freq2-freq1))
-	return (midi_array, diff_array)
+	return diff_array
 
 """
-from the melody array, returns int array of indicies of start points which 
+from the midi array, returns int array of indicies of start points which 
 represent beginning of melodic lines
 note: here we are using the constant of 2 seconds pause = end of melodic line
 """
-def get_starts(melody):
+def get_starts(midi):
+	starts = [0]
+	check = False
+	len_silence=0.0
+	len_start=0.0
+	last_melody=(0.0,0)
+
+	for x in range(0, len(midi)):
+		if(check):
+			#if we're still within the checking range and no silence, update len_start
+			if (midi[x][1] > 0) and (len_start < note):
+				len_start = midi[x][0]-last_melody[0]
+			else:
+				# if we've surpassed the end of the range, new start!
+				if len_start >= note:
+					starts.append(last_melody[1])
+				# toggle off check, set length of valid range to 0
+				check = False
+				len_start=0.0
+				last_melody=(midi[x][0],x)
+		else:
+			if midi[x][1] > 0:
+				if len_silence > pause:
+					check = True
+				len_silence = 0.0
+				last_melody = (midi[x][0],x)
+			else:
+				len_silence = midi[x][0] - last_melody[0]
+	return starts
+	"""
 	len_silence = 0.0
 	last_melody = 0.0
 	starts = [0]
-	for x in xrange(0,len(melody)):
-		if melody[x][1] > 0:
+	for x in xrange(0,len(midi)):
+		if midi[x][1] > 0:
 			if len_silence > pause:
 				starts.append(x)
 			len_silence = 0.0
-			last_melody = melody[x][0]
+			last_melody = midi[x][0]
 		else: 
-			len_silence = melody[x][0] - last_melody 				
-	return starts			
+			len_silence = midi[x][0] - last_melody 				
+	return starts
+	"""			
 
 # from a float freq return the corresponding float for midi value
 def freq_to_midi(freq):

@@ -4,7 +4,7 @@ import json
 from database import db_session, metadata
 from analyze import *
 #for the split function
-import re
+import ntpath
 from distance import frechet
 
 class Music(object):
@@ -26,12 +26,12 @@ class Music(object):
 
 	# generates the melody from the file_path and stores as a json string
 	def gen_melody(self):
-		self.melody = json.dumps(process_melody(get_melody(self.file_path))[1])
+		self.melody = json.dumps(get_midi(self.file_path))
 		return
 
 	# stores the first differences as a json string	
 	def gen_diffs(self):
-		self.diffs = json.dumps(process_melody(get_melody(self.file_path))[0])
+		self.diffs = json.dumps(diffs_midi(json.loads(self.melody)))
 		return
 
 	def str_to_arr(self):
@@ -62,7 +62,7 @@ class Song(Music):
 
 songs = Table('songs', metadata,
     Column('id', Integer, primary_key=True),
-    Column('file_path', String(100), unique=True),
+    Column('file_path', String(50), unique=True),
     Column('melody', Text),
     Column('diffs', Text),
     Column('starts', Text)
@@ -82,7 +82,7 @@ class Hum(Music):
 	def get_matches(self):
 		
 		# gets dictionary of songs
-		dict_songs = db_session.query(Song).all()
+		dict_songs = Song.query.all()
 		song_diffs = []
 
 		# turn melody "strings" of each song object into an array 
@@ -105,13 +105,8 @@ class Hum(Music):
 		return sorted_diffs[:10]
 
 #to get a nice version of the title - minus all the filepath bits
-def title_from_path(str):
-	arr = file.split()
-	if len(arr) > 2:
-		title = re.split('[./]', file)[len(arr)-2]
-	else:
-		title = file
-	return title
+def title_from_path(path):
+	return ntpath.basename(path).split(".")[0]
 
 '''
 # object hook for getting a song object from a json string
