@@ -91,9 +91,7 @@ class Hum(Music):
 			return (tick[0],new_midi)
 
 		# check if there is an octave displacement
-		if len(octave) > 0:
-			if not isinstance(octave, int):
-				print "Please indicate a valid octave displacement."
+		if octave != 0:
 			midi_array = str_to_arr(self.melody)
 			for tick in midi_array:
 				tick = (tick[0],octave_displace(tick,octave))
@@ -101,7 +99,7 @@ class Hum(Music):
 		#	do the frechet distance
 		#	store the song name and frechet distance stuff
 		for song in dict_songs:
-			diff = frechet(str_to_arr(song.melody),str_to_arr(self.melody),str_to_arr(song.starts),octave)
+			diff = frechet(str_to_arr(song.melody),str_to_arr(self.melody),str_to_arr(song.starts))
 			# title = title_from_path(song.file_path)
 			title = song.file_path
 			song_diffs.append((title,diff))
