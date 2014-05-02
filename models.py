@@ -4,7 +4,7 @@ import json
 from database import db_session, metadata
 from analyze import *
 #for the split function
-import re
+import ntpath
 from distance import frechet
 
 class Music(object):
@@ -111,13 +111,9 @@ class Hum(Music):
 		return sorted_diffs[:10]
 
 #to get a nice version of the title - minus all the filepath bits
-def title_from_path(fname):
-	arr = fname.split()
-	if len(arr) > 2:
-		title = re.split('[./]', fname)[len(arr)-2]
-	else:
-		title = fname
-	return title
+def title_from_path(path):
+	return ntpath.basename(path).split(".")[0]
+
 
 # turns melody string into array
 def str_to_arr(str):

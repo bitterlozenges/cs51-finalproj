@@ -3,6 +3,10 @@ from analyze import *
 from models import Song #get database, songs table, and Song class
 from database import db_session, init_db
 import os
+"""
+This script deletes any old instances of the database, creates a new one,
+then repopulates it with the files in folder_path
+"""
 
 #the path for the file containing the list of files to be put in the array
 folder_path = "file_list.txt"
