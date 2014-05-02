@@ -12,7 +12,6 @@ pause = 0.5
 ticks_per_second = 338
 
 
->>>>>>> andrew_starts
 
 #from the filepath 'file', return a (float,float) array containing the melody information
 # in the form of (timescale, midiscore)
