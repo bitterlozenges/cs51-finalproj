@@ -34,9 +34,7 @@ class Music(object):
 		self.diffs = json.dumps(diffs_midi(json.loads(self.melody)))
 		return
 
-	def str_to_arr(self):
-		tmp = json.loads(self.melody)	
-		self.melody = tmp
+	
 
 
 
@@ -46,6 +44,7 @@ class Song(Music):
 	points of a song, and generates the difference array
 	"""
 	def __init__(self,file_path,melody=None,diffs=None,starts=None):
+
 		Music.__init__(self,file_path,melody,diffs)
 		
 		# if the starts parameter was not passed, generate it.
@@ -62,7 +61,7 @@ class Song(Music):
 
 songs = Table('songs', metadata,
     Column('id', Integer, primary_key=True),
-    Column('file_path', String(50), unique=True),
+    Column('file_path', String(100), unique=True),
     Column('melody', Text),
     Column('diffs', Text),
     Column('starts', Text)
@@ -80,19 +79,14 @@ class Hum(Music):
 	"""
 	# returns top 10 matches
 	def get_matches(self):
-		
 		# gets dictionary of songs
-		dict_songs = Song.query.all()
+		dict_songs = db_session.query(Song).all()
 		song_diffs = []
-
-		# turn melody "strings" of each song object into an array 
-		for song in dict_songs:
-			song.str_to_arr
 
 		#	do the frechet distance
 		#	store the song name and frechet distance stuff
 		for song in dict_songs:
-			diff = frechet(song.melody,str_to_arr(self.melody),song.starts)
+			diff = frechet(str_to_arr(song.melody),str_to_arr(self.melody),song.starts)
 			title = title_from_path(song.file_path)
 			song_diffs.append((title,diff))
 		
@@ -113,6 +107,9 @@ def title_from_path(str):
 		title = file
 	return title
 
+# turns melody string into array
+def str_to_arr(str):
+	return json.loads(str)	
 '''
 # object hook for getting a song object from a json string
 def as_song(dic):
