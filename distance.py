@@ -1,6 +1,8 @@
 # calculates frechet distance between two curves defined by a list
 # of coordinates in R^2 
-bucket_size = 200
+from analyze import compression_factor
+
+bucket_size = 200 / compression_factor
 
 def frechet(song, hum, starts, octave=0):
 
@@ -36,20 +38,20 @@ def frechet(song, hum, starts, octave=0):
 			if octave != 0:
 				hum[x] = octave_displace(hum[x],octave)
 			# this initial min_val uses the index in the distance	
-			min_val = (euclid((x,hum[x][1]),(x,song_clip[x][1])),song_clip[x][0],x)
+			# min_val = (euclid((x,hum[x][1]),(x,song_clip[x][1])),song_clip[x][0],x)
 			# this initial min_val normalizes the timestamps
-			# min_val = (euclid((hum[x][0] - hum[0][0],hum[x][1]),((song_clip[x][0]-song_clip[0][0]),song_clip[x][1])),song_clip[x][0],x)
+			min_val = (euclid((hum[x][0] - hum[0][0],hum[x][1]),((song_clip[x][0]-song_clip[0][0]),song_clip[x][1])),song_clip[x][0],x)
 			# iterate over song list to calculate minimum euclidean distance
-			for y in xrange(max((x-bucket_size),0),min(x+bucket_size,len(song_clip))):
+			""" for y in xrange(max((x-bucket_size),0),min(x+bucket_size,len(song_clip))):
 				new_dist = (euclid((x,hum[x][1]),(y,song_clip[y][1])),song_clip[y][0],y)
 				if new_dist[0] < min_val[0]:
-					min_val = new_dist
-			""" for y in xrange(max((x-bucket_size),0),min(x+bucket_size,len(song_clip))):
+					min_val = new_dist """
+			for y in xrange(max((x-bucket_size),0),min(x+bucket_size,len(song_clip))):
 				new_dist = (euclid((hum[x][0]-hum[0][0],hum[x][1]),(song_clip[y][0]-song_clip[0][0],song_clip[y][1])),song_clip[y][0],y)
 				if new_dist[0] < min_val[0]:
-					min_val = new_dist """
+					min_val = new_dist
 			min_list.append(min_val)
-			print "Distance at times (" + str(hum[x][0]) + "," + str(min_val[1]) + ") at indices (" + str(x) + "," + str(min_val[2]) + ") is " + str(min_val[0])
+			# print "Distance at times (" + str(hum[x][0]) + "," + str(min_val[1]) + ") at indices (" + str(x) + "," + str(min_val[2]) + ") is " + str(min_val[0])
 
 		# frechet_list.append(sum(min_list))
 		frechet_list.append(sum(pair[0] for pair in min_list))

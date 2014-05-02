@@ -96,7 +96,6 @@ class Hum(Music):
 			for tick in midi_array:
 				tick = (tick[0],octave_displace(tick,octave))
 		'''
-
 		#	do the frechet distance
 		#	store the song name and frechet distance stuff
 		for song in dict_songs:

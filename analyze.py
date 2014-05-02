@@ -11,7 +11,8 @@ blip = 0.1
 len_pause = 2.0
 len_start = 0.25
 pause = 0.5
-ticks_per_second = 338
+ticks_per_second = 338 // 2
+compression_factor = 5
 
 #from the filepath 'file', return a (float,float) array containing the melody information
 # in the form of (timescale, midiscore)
@@ -28,7 +29,8 @@ def get_midi(file):
 		# strips leading 0s
 		while midi_array[0][1] == 0:
 			del midi_array[0]
-				
+		# chooses every compression_factor-th midi score 
+		midi_array = midi_array[0::compression_factor]		
 	return midi_array
 
 #from the midi array, generate a float array of midi value differences collected at regular intervals
@@ -133,7 +135,7 @@ def get_starts(midi):
 		else:
 			len_sound = 0.0 
 			len_silence = midi[x][0] - last_melody
-			last_silence = midi[x][0] """		
+			last_silence = midi[x][0]	"""	
 	return starts
 
 """
