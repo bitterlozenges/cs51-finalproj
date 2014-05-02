@@ -83,19 +83,21 @@ class Hum(Music):
 		dict_songs = db_session.query(Song).all()
 		song_diffs = []
 
-		'''	
 		# function for transposing a tick by octave octaves 
 		def octave_displace(tick, octave):
-			return (tick[0],tick[1] + (octave * 12))
+			if tick[1] == 0:
+				return tick
+			new_midi = float(octave) * 12 + tick[1]
+			return (tick[0],new_midi)
 
 		# check if there is an octave displacement
 		if len(octave) > 0:
 			if not isinstance(octave, int):
 				print "Please indicate a valid octave displacement."
-			midi_array = str_to_array(self.melody)
+			midi_array = str_to_arr(self.melody)
 			for tick in midi_array:
 				tick = (tick[0],octave_displace(tick,octave))
-		'''
+
 		#	do the frechet distance
 		#	store the song name and frechet distance stuff
 		for song in dict_songs:
