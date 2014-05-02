@@ -2,11 +2,13 @@
 # of coordinates in R^2 
 from analyze import compression_factor
 
-bucket_size = 250 / compression_factor
+bucket_size = 200 / compression_factor
 
+# Use weight of 9/4 = (3/2)**2
+distance_weight = 2.25
 # calculates euclidean distance in R^2
 def euclid(p1,p2):
-	return ((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)**(0.5)
+	return (distance_weight*((p1[0]-p2[0])**2) + (p1[1]-p2[1])**2)**(0.5)
 
 def frechet(song, hum, starts, octave=0):
 
