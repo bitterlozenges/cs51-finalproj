@@ -105,11 +105,8 @@ class Hum(Music):
 			title = song.file_path
 			song_diffs.append((title,diff))
 		
-		# get the top 10 shortest lengths of song in the dictionary in ranked order
-		def getKey(item):
-			item[1]
-
-		sorted_diffs = sorted(song_diffs, key = getKey)
+		# get the top 10 shortest lengths of song in the dictionary ranked by difference
+		sorted_diffs = sorted(song_diffs,key=lambda song: song[1])
 
 		return sorted_diffs[:10]
 

@@ -1,7 +1,6 @@
 # calculates frechet distance between two curves defined by a list
 # of coordinates in R^2 
 bucket_size = 200
-#
 
 def frechet(song, hum, starts, octave=0):
 
