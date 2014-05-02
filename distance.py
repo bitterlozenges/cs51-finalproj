@@ -11,25 +11,6 @@ def euclid(p1,p2):
 	return (distance_weight*((p1[0]-p2[0])**2) + (p1[1]-p2[1])**2)**(0.5)
 
 def frechet(song, hum, starts):
-
-
-	"""
-	# octave displacement
-	def octave_displace(tick, octave):
-		if tick[1] == 0:
-			return tick
-		new_midi = float(octave) * 12 + tick[1]
-		print (tick[0],new_midi)
-		return (tick[0],new_midi)
-
-	#for x in xrange(0,len(hum)):
-	#	if octave != 0:
-	#		hum[x] = octave_displace(hum[x],octave)
-
-	# flag for octave displacement
-	octaved = False		
-	"""
-
 	frechet_list = []
 	# iterate over the hum list and calculate euclidean distance between
 	# hum and every point in the song
@@ -48,10 +29,6 @@ def frechet(song, hum, starts):
 		min_list = []
 		# for tick_h in hum:
 		for x in xrange(0,len(hum)):
-			"""
-			if octave != 0 and octaved != True:
-				hum[x] = octave_displace(hum[x],octave)
-			"""
 			# this initial min_val uses the index in the distance	
 			# min_val = (euclid((x,hum[x][1]),(x,song_clip[x][1])),song_clip[x][0],x)
 			# this initial min_val normalizes the timestamps
@@ -70,7 +47,6 @@ def frechet(song, hum, starts):
 
 		# frechet_list.append(sum(min_list))
 		frechet_list.append(sum(pair[0] for pair in min_list))
-		octaved = True
 	# return the minimum frechet value for a hum matched to each section
 	# of a song
 	print frechet_list
