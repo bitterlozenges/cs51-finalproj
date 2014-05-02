@@ -24,7 +24,6 @@ def insert_list_db(file):
 	f = open(file, 'r')
 	for line in f:
 		insert_song_db(line.strip('\t\n\r'))
-
 	#after adding each song to the current session, commit all changes
 	db_session.commit()
 	f.close()
