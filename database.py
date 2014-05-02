@@ -7,12 +7,11 @@ engine = create_engine('sqlite:///finalproj.db',convert_unicode=True)
 
 engine.echo = False
 
-metadata = MetaData()
+metadata = MetaData(engine)
 
 db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
 
-
 def init_db():
-    metadata.create_all(bind=engine)
+    metadata.create_all()
 

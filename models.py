@@ -26,12 +26,12 @@ class Music(object):
 
 	# generates the melody from the file_path and stores as a json string
 	def gen_melody(self):
-		self.melody = json.dumps(process_melody(get_melody(self.file_path))[1])
+		self.melody = json.dumps(get_midi(self.file_path))
 		return
 
 	# stores the first differences as a json string	
 	def gen_diffs(self):
-		self.diffs = json.dumps(process_melody(get_melody(self.file_path))[0])
+		self.diffs = json.dumps(diffs_midi(json.loads(self.melody)))
 		return
 
 	
