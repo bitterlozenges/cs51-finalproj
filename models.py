@@ -7,7 +7,7 @@ from analyze import *
 import re
 from distance import frechet
 
-class Music:
+class Music(object):
 	def __init__(self,file_path,melody=None,diffs=None):
 		self.file_path = file_path
 
@@ -62,7 +62,7 @@ class Song(Music):
 
 songs = Table('songs', metadata,
     Column('id', Integer, primary_key=True),
-    Column('file_path', String(50), unique=True),
+    Column('file_path', String(100), unique=True),
     Column('melody', Text),
     Column('diffs', Text),
     Column('starts', Text)
@@ -82,7 +82,7 @@ class Hum(Music):
 	def get_matches(self):
 		
 		# gets dictionary of songs
-		dict_songs = Song.query.all()
+		dict_songs = db_session.query(Song).all()
 		song_diffs = []
 
 		# turn melody "strings" of each song object into an array 

@@ -48,7 +48,7 @@ note: here we are using the constant of 2 seconds pause = end of melodic line
 def get_starts(melody):
 	len_silence = 0.0
 	last_melody = 0.0
-	starts = []
+	starts = [0]
 	for x in xrange(0,len(melody)):
 		if melody[x][1] > 0:
 			if len_silence > pause:
