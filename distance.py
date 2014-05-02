@@ -1,6 +1,7 @@
 # calculates frechet distance between two curves defined by a list
 # of coordinates in R^2 
-bucket_size = 1000
+bucket_size = 200
+#
 
 def frechet(song, hum, starts, octave=0):
 
@@ -24,7 +25,7 @@ def frechet(song, hum, starts, octave=0):
 		# if the hum is longer than the length of the song from the start to
 		# to the end, then we cannot compare
 		song_clip = song[start:]
-		print len(song_clip)
+		# print len(song_clip)
 		if len(hum) > len(song_clip):
 			continue
 		# store a list of minimum euclidean distances between each point in
@@ -42,7 +43,7 @@ def frechet(song, hum, starts, octave=0):
 				if new_dist < min_val:
 					min_val = new_dist
 			min_list.append(min_val)
-			print "Distance at time " + str(hum[x][0]) + " is " + str(min_val)
+			# print "Distance at time " + str(hum[x][0]) + " is " + str(min_val)
 
 		frechet_list.append(sum(min_list))
 	# return the minimum frechet value for a hum matched to each section
