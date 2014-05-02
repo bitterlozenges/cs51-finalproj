@@ -11,7 +11,7 @@ def frechet(song, hum, starts, octave=0):
 
 	# octave displacement
 	def octave_displace(tick, octave):
-		if tick[1] = 0:
+		if tick[1] == 0:
 			return tick
 		return (tick[0],tick[1] + (octave * 12))
 
@@ -33,8 +33,8 @@ def frechet(song, hum, starts, octave=0):
 		min_list = []
 		# for tick_h in hum:
 		for x in xrange(0,len(hum)):
-			if not octave = 0:
-				hum[x] = (hum[x][0],octave_displace(hum[x][1]))
+			if octave != 0:
+				hum[x] = octave_displace(hum[x],octave)
 			min_val = euclid(hum[x],song_clip[0])
 			# iterate over song list to calculate minimum euclidean distance
 			for y in xrange(max((x-bucket_size),0),min(x+bucket_size,len(song_clip))):
