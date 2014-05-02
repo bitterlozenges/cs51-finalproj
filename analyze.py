@@ -47,6 +47,7 @@ represent beginning of melodic lines
 note: here we are using the constant of 0.5 seconds pause = end of melodic line
 """
 def get_starts(midi):
+	"""
 	starts = [0]
 	check = False
 	len_start = 0.0
@@ -80,7 +81,7 @@ def get_starts(midi):
 			else:
 				len_silence = midi[x][0] - last_melody[0]
 	return starts
-
+	"""
 
 
 
@@ -123,18 +124,18 @@ def get_starts(midi):
 				len_silence = midi[x][0] - last_melody
 	"""
 
-"""
-	starts = []
+
+	starts = [0]
 	for x in xrange(0,len(midi) // ticks_per_second):
 		starts.append(x * ticks_per_second)
-			last_melody = midi[x][0]
+		"""	last_melody = midi[x][0]
 			len_sound = midi[x][0] - last_silence
 		else:
 			len_sound = 0.0 
 			len_silence = midi[x][0] - last_melody
-			last_silence = midi[x][0] 				
+			last_silence = midi[x][0] """		
 	return starts
-"""
+
 """
 
 	len_silence = 0.0
