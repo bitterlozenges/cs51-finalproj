@@ -77,16 +77,30 @@ class Hum(Music):
 	Represents a clip of someone humming that extends the Music class
 	with extra functionality of getting music
 	"""
-	# returns top 10 matches
-	def get_matches(self):
+	# returns top 10 matches with optional octave displacement
+	def get_matches(self, octave=0):
 		# gets dictionary of songs
 		dict_songs = db_session.query(Song).all()
 		song_diffs = []
 
+		'''	
+		# function for transposing a tick by octave octaves 
+		def octave_displace(tick, octave):
+			return (tick[0],tick[1] + (octave * 12))
+
+		# check if there is an octave displacement
+		if len(octave) > 0:
+			if not isinstance(octave, int):
+				print "Please indicate a valid octave displacement."
+			midi_array = str_to_array(self.melody)
+			for tick in midi_array:
+				tick = (tick[0],octave_displace(tick,octave))
+		'''
+
 		#	do the frechet distance
 		#	store the song name and frechet distance stuff
 		for song in dict_songs:
-			diff = frechet(str_to_arr(song.melody),str_to_arr(self.melody),str_to_arr(song.starts))
+			diff = frechet(str_to_arr(song.melody),str_to_arr(self.melody),str_to_arr(song.starts),octave)
 			# title = title_from_path(song.file_path)
 			title = song.file_path
 			song_diffs.append((title,diff))

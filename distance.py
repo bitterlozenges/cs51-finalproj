@@ -2,11 +2,18 @@
 # of coordinates in R^2 
 bucket_size = 1000
 
-def frechet(song, hum, starts):
+def frechet(song, hum, starts, octave=0):
+
 
 	# calculates euclidean distance in R^2
 	def euclid(p1,p2):
 		return ((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)**(0.5)
+
+	# octave displacement
+	def octave_displace(tick, octave):
+		if tick[1] = 0:
+			return tick
+		return (tick[0],tick[1] + (octave * 12))
 
 	frechet_list = []
 	# iterate over the hum list and calculate euclidean distance between
@@ -26,6 +33,8 @@ def frechet(song, hum, starts):
 		min_list = []
 		# for tick_h in hum:
 		for x in xrange(0,len(hum)):
+			if not octave = 0:
+				hum[x] = (hum[x][0],octave_displace(hum[x][1]))
 			min_val = euclid(hum[x],song_clip[0])
 			# iterate over song list to calculate minimum euclidean distance
 			for y in xrange(max((x-bucket_size),0),min(x+bucket_size,len(song_clip))):
