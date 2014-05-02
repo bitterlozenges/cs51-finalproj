@@ -14,4 +14,3 @@ db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind
 
 def init_db():
     metadata.create_all()
-
