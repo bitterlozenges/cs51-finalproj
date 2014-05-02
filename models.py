@@ -86,8 +86,9 @@ class Hum(Music):
 		#	do the frechet distance
 		#	store the song name and frechet distance stuff
 		for song in dict_songs:
-			diff = frechet(str_to_arr(song.melody),str_to_arr(self.melody),song.starts)
-			title = title_from_path(song.file_path)
+			diff = frechet(str_to_arr(song.melody),str_to_arr(self.melody),str_to_arr(song.starts))
+			# title = title_from_path(song.file_path)
+			title = song.file_path
 			song_diffs.append((title,diff))
 		
 		# get the top 10 shortest lengths of song in the dictionary in ranked order
@@ -99,12 +100,12 @@ class Hum(Music):
 		return sorted_diffs[:10]
 
 #to get a nice version of the title - minus all the filepath bits
-def title_from_path(str):
-	arr = file.split()
+def title_from_path(fname):
+	arr = fname.split()
 	if len(arr) > 2:
-		title = re.split('[./]', file)[len(arr)-2]
+		title = re.split('[./]', fname)[len(arr)-2]
 	else:
-		title = file
+		title = fname
 	return title
 
 # turns melody string into array
