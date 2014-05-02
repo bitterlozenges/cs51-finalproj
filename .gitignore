@@ -1,5 +1,6 @@
 #Project-specific
 song_database/**
+hum_database/**
 *.csv
 *.mp3
 *.wav
