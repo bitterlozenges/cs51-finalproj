@@ -6,12 +6,13 @@ import math
 
 #constant for how long a pause should be before considering it a start point
 
-
 note = 0.25
+blip = 5.0
 len_pause = 2.0
 len_start = 0.25
 pause = 0.5
 ticks_per_second = 338
+
 
 #from the filepath 'file', return a (float,float) array containing the melody information
 # in the form of (timescale, midiscore)
@@ -47,38 +48,51 @@ represent beginning of melodic lines
 note: here we are using the constant of 0.5 seconds pause = end of melodic line
 """
 def get_starts(midi):
-<<<<<<< HEAD
+	len_silence = 0.0
+	len_sound = 0.0
+	last_melody = 0.0
+	last_silence = 0.0
 	starts = [0]
-	check = False
-	len_silence=0.0
-	len_start=0.0
-	last_melody=(0.0,0)
-
-	for x in range(0, len(midi)):
-		if(check):
-			#if we're still within the checking range and no silence, update len_start
-			if (midi[x][1] > 0) and (len_start < note):
-				len_start = midi[x][0]-last_melody[0]
-			else:
-				# if we've surpassed the end of the range, new start!
-				if len_start >= note:
-					starts.append(last_melody[1])
-				# toggle off check, set length of valid range to 0
-				check = False
-				len_start=0.0
-				last_melody=(midi[x][0],x)
+	for x in xrange(0,len(midi)):
+		if midi[x][1] > 0:
+			if len_silence > pause & len_sound > blip:
+				starts.append(x)
+			elif len_silence <= pause & len_sound > blip:
+				len_silence = 0.0
+			last_melody = midi[x][0]
+			len_sound = midi[x][0] - last_silence
 		else:
-			if midi[x][1] > 0:
-				if len_silence > pause:
-					check = True
+			len_sound = 0.0 
+			len_silence = midi[x][0] - last_melody
+			last_silence = midi[x][0] 				
+	return starts
+"""
+	starts = [0]
+	len_silence = 0.0
+	len_sound = 0.0
+	last_melody = 0.0
+	last_silence = 0.0
+	for x in xrange(0,len(midi)):
+		if midi[x][1] > 0:
+			if len_silence > pause and (len_sound > blip):
+				starts.append(x)
+				len_silence = 0.0
+			elif len_silence <= pause and (len_sound > blip):
 				len_silence = 0.0
 				last_melody = (midi[x][0],x)
 			else:
 				len_silence = midi[x][0] - last_melody[0]
 """
+"""
 	starts = []
 	for x in xrange(0,len(midi) // ticks_per_second):
 		starts.append(x * ticks_per_second)
+			last_melody = midi[x][0]
+			len_sound = midi[x][0] - last_silence
+		else:
+			len_sound = 0.0 
+			len_silence = midi[x][0] - last_melody
+			last_silence = midi[x][0] 				
 	return starts
 """
 """
@@ -97,8 +111,8 @@ def get_starts(midi):
 		return starts
 	"""			
 	
-	"""
->>>>>>> 7b63a62e71f3a52e07cc8bbf645e6f16e6698f58
+				
+
 # from a float freq return the corresponding float for midi value
 def freq_to_midi(freq):
 	if freq <= 0:
