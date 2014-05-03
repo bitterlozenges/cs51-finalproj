@@ -79,23 +79,24 @@ class Hum(Music):
 		dict_songs = db_session.query(Song).all()
 		song_diffs = []
 
-		# function for transposing a tick by octave octaves 
-		def octave_displace(tick, octave):
-			if tick[1] == 0:
-				return tick
-			new_midi = float(octave) * 12 + tick[1]
-			return (tick[0],new_midi)
-
-		# check if there is an octave displacement
-		if octave != 0:
-			midi_array = str_to_arr(self.melody)
-			for tick in midi_array:
-				tick = (tick[0],octave_displace(tick,octave))
+		def melody_transpose(melody):
+			# function for transposing a tick by octave octaves 
+			def tick_transpose(tick, octave):
+				if tick[1] == 0:
+					return tick
+				new_midi = (float(octave) * 12) + tick[1]
+				return (tick[0],new_midi)
+			
+			new_melody = []
+			for tick in melody:
+				new_melody.append(tick_transpose(tick,octave))
+			return new_melody
 
 		#	do the frechet distance
 		#	store the song name and frechet distance stuff
 		for song in dict_songs:
-			diff = frechet(str_to_arr(song.melody),str_to_arr(self.melody),str_to_arr(song.starts))
+			# diff = frechet(str_to_arr(song.melody),str_to_arr(self.melody),str_to_arr(song.starts))
+			diff = frechet(str_to_arr(song.melody),melody_transpose(str_to_arr(self.melody)),str_to_arr(song.starts))
 			# title = title_from_path(song.file_path)
 			title = title_from_path(song.file_path)
 			song_diffs.append((title,diff))
