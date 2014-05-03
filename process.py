@@ -25,7 +25,7 @@ def process(input_path, Hum=True):
 	# check platform for Windows or Darwin (OSX), and change command-line command as necessary
 	platform_name = platform.platform()
 	if "Darwin" in platform_name:
-		os_path = "sonic_annotator/sonic-annotator"
+		os_path = "sonic_annotator/sonic-annotator-mac"
 	elif "Windows" in platform_name: 
 		os_path = ".\sonic_annotator\sonic-annotator"
 	else:
