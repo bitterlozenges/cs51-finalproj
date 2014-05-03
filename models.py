@@ -36,8 +36,6 @@ class Music(object):
 
 	
 
-
-
 class Song(Music):
 	"""
 	Represents a song, that, when initialized, generates the main melody, the start
@@ -68,8 +66,6 @@ songs = Table('songs', metadata,
 )
 
 mapper(Song, songs)
-
-
 
 
 class Hum(Music):
@@ -116,15 +112,3 @@ def title_from_path(path):
 # turns melody string into array
 def str_to_arr(str):
 	return json.loads(str)	
-'''
-# object hook for getting a song object from a json string
-def as_song(dic):
-	file_path = dic['file_path']
-	melody = dic['melody']
-	starts = dic['starts']
-	return Song(file_path,melody,starts)
-
-# returns a song given a json string
-def to_song(str):
-	return json.loads(str,object_hook=as_song)
-'''

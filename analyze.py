@@ -5,13 +5,7 @@ import sys
 import math
 
 #constant for how long a pause should be before considering it a start point
-
-note = 0.25
-blip = 0.1
-len_pause = 2.0
-len_start = 0.25
-pause = 0.5
-ticks_per_second = 338 // 2
+ticks_per_second = 338 // 3
 compression_factor = 5
 
 #from the filepath 'file', return a (float,float) array containing the melody information
@@ -43,118 +37,14 @@ def diffs_midi(midi):
 		diff_array.append((time1,freq2-freq1))
 	return diff_array
 
-"""
-from the midi array, returns int array of indicies of start points which 
-represent beginning of melodic lines
-note: here we are using the constant of 0.5 seconds pause = end of melodic line
-"""
+
+# from the midi array, returns int array of indicies of start points which represent beginning of melodic lines
+# here we are using the constant of 1 start every 338/2 points = 0.5 seconds
 def get_starts(midi):
-	"""
-	starts = [0]
-	check = False
-	len_start = 0.0
-	len_silence = 0.0
-	last_melody = (0.0,0)
-	for x in xrange(0,len(midi)):
-		if(check):
-			#if we get another silence within the error blip time, pretend it never happened
-			if (midi[x][1] == 0) and (len_start < blip):
-				check = False
-			# if we're still within the checking range and no silence, update len_start			
-			elif (midi[x][1] > 0) and (len_start < note):
-				# if we 
-				if len_start > blip:
-					len_silence = 0.0
-				len_start = midi[x][0]-last_melody[0]
-			else:
-				# if we've surpassed the end of the range, new start!
-				if len_start >= note:
-					starts.append(last_melody[1])
-				# toggle off check, set length of valid range to 0
-				check = False
-				len_start=0.0
-				last_melody=(midi[x][0],x)
-		else:
-			if midi[x][1] > 0:
-				if len_silence > pause:
-					check = True
-				#len_silence = 0.0
-				last_melody = (midi[x][0],x)
-			else:
-				len_silence = midi[x][0] - last_melody[0]
-	return starts
-	"""
-
-
-
-
-	"""
-	len_silence = 0.0
-	len_sound = 0.0
-	last_melody = 0.0
-	last_silence = 0.0
-	starts = [0]
-	for x in xrange(0,len(midi)):
-		if midi[x][1] > 0:
-			if len_silence > pause and (len_sound > blip):
-				starts.append(x)
-			elif len_silence <= pause and (len_sound > blip):
-				len_silence = 0.0
-			last_melody = midi[x][0]
-			len_sound = midi[x][0] - last_silence
-		else:
-			len_sound = 0.0 
-			len_silence = midi[x][0] - last_melody
-			last_silence = midi[x][0] 				
-	return starts
-	"""
-	"""
-	starts = [0]
-	len_silence = 0.0
-	len_sound = 0.0
-	last_melody = 0.0
-	last_silence = 0.0
-	for x in xrange(0,len(midi)):
-		if midi[x][1] > 0:
-			if len_silence > pause and (len_sound > blip):
-				starts.append(x)
-				len_silence = 0.0
-			elif len_silence <= pause and (len_sound > blip):
-				len_silence = 0.0
-				last_melody = (midi[x][0],x)
-			else:
-				len_silence = midi[x][0] - last_melody
-	"""
-
-
-	starts = [0]
+	starts = []
 	for x in xrange(0,len(midi) // ticks_per_second):
-		starts.append(x * ticks_per_second)
-		"""	last_melody = midi[x][0]
-			len_sound = midi[x][0] - last_silence
-		else:
-			len_sound = 0.0 
-			len_silence = midi[x][0] - last_melody
-			last_silence = midi[x][0]	"""	
+		starts.append(x * ticks_per_second)		
 	return starts
-
-"""
-
-	len_silence = 0.0
-	last_melody = 0.0
-	starts = [0]
-	for x in xrange(0,len(midi)):
-		if midi[x][1] > 0:
-			if len_silence > pause:
-				starts.append(x)
-			len_silence = 0.0
-			last_melody = midi[x][0]
-		else: 
-			len_silence = midi[x][0] - last_melody 				
-		return starts
-	"""			
-	
-				
 
 # from a float freq return the corresponding float for midi value
 def freq_to_midi(freq):
