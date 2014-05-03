@@ -2,19 +2,21 @@
 # of coordinates in R^2 
 from analyze import compression_factor
 
+# this is python's maximum float val, used to signify hum length > song length
 float_max = 1.7976931348623157e+308
 
+# what "bucket" in the song clip we restrict our search for the closet point to
 bucket_size = 100 / compression_factor
 
-# Use weight of 9/4 = (3/2)**2
+# We experimented with weighting the distance using constants, but this did not affect results significantly
 time_weight = 1.0
 freq_weight = 1.0
-# calculates euclidean distance in R^2
+
+# calculates (weighted) euclidean distance in R^2
 def euclid(p1,p2):
 	return ( time_weight*(p1[0]-p2[0])**2 + freq_weight*(p1[1]-p2[1])**2 )**(0.5)
 
 def frechet(song, hum, starts, octave=0):
-
 	
 	# octave displacement
 	def octave_displace(tick, octave):
@@ -42,30 +44,29 @@ def frechet(song, hum, starts, octave=0):
 		for x in xrange(0,len(hum)):
 			if octave != 0:
 				hum[x] = octave_displace(hum[x],octave)
-			# this initial min_val uses the index in the distance	
-			# min_val = (euclid((x,hum[x][1]),(x,song_clip[x][1])),song_clip[x][0],x)
+			
 			# this initial min_val normalizes the timestamps
 			min_val = (euclid((hum[x][0] - hum[0][0],hum[x][1]),((song_clip[x][0]-song_clip[0][0]),song_clip[x][1])),song_clip[x][0],x)
 			# iterate over song list to calculate minimum euclidean distance
-			""" for y in xrange(max((x-bucket_size),0),min(x+bucket_size,len(song_clip))):
-				new_dist = (euclid((x,hum[x][1]),(y,song_clip[y][1])),song_clip[y][0],y)
-				if new_dist[0] < min_val[0]:
-					min_val = new_dist """
+			
 			for y in xrange(max((x-bucket_size),0),min(x+bucket_size,len(song_clip))):
 				new_dist = (euclid((hum[x][0]-hum[0][0],hum[x][1]),(song_clip[y][0]-song_clip[0][0],song_clip[y][1])),song_clip[y][0],y)
 				if new_dist[0] < min_val[0]:
 					min_val = new_dist
 			min_list.append(min_val)
+			
+			# print statement for debugging purposes
 			# print "Distance at times (" + str(hum[x][0]) + "," + str(min_val[1]) + ") at indices (" + str(x) + "," + str(min_val[2]) + ") is " + str(min_val[0])
 
-		# frechet_list.append(sum(min_list))
 		frechet_list.append(sum(pair[0] for pair in min_list))
-	# return the minimum frechet value for a hum matched to each section
-	# of a song
-	print frechet_list
+	
 	# handles the case of no matches, i.e. hum is longer than entire song
 	if len(frechet_list) == 0:
 		frechet_list = [float_max]
+
+	# return the minimum frechet value for a hum matched to each section
+	# the print statement lets the user see progress; will print out one frechet list per song
+	print frechet_list	
 	return min(frechet_list)
 
 def frechet_plain(song,hum):
@@ -81,15 +82,6 @@ def frechet_plain(song,hum):
 		min_list.append(min_val)
 	return sum(min_list) 
 
-#tests
-l1 = [(0,0),(1,1),(2,2)]
-l2 = [(0,0),(1,.5),(2,1),(3,1.5),(4,2)]
-l3 = [(1,.5),(2,1),(3,1.5),(4,2)]
-starts = [0,1]
-
-frechet_plain(l2,l1)
-frechet_plain(l3,l1)
-frechet(l2,l1,starts)
 
 
 
