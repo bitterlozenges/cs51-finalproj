@@ -2,13 +2,16 @@
 # of coordinates in R^2 
 from analyze import compression_factor
 
-bucket_size = 200 / compression_factor
+float_max = 1.7976931348623157e+308
+
+bucket_size = 100 / compression_factor
 
 # Use weight of 9/4 = (3/2)**2
-distance_weight = 2.25
+time_weight = 1.0
+freq_weight = 1.0
 # calculates euclidean distance in R^2
 def euclid(p1,p2):
-	return (distance_weight*((p1[0]-p2[0])**2) + (p1[1]-p2[1])**2)**(0.5)
+	return ( time_weight*(p1[0]-p2[0])**2 + freq_weight*(p1[1]-p2[1])**2 )**(0.5)
 
 def frechet(song, hum, starts):
 	frechet_list = []
@@ -50,6 +53,9 @@ def frechet(song, hum, starts):
 	# return the minimum frechet value for a hum matched to each section
 	# of a song
 	print frechet_list
+	# handles the case of no matches, i.e. hum is longer than entire song
+	if len(frechet_list) == 0:
+		frechet_list = [float_max]
 	return min(frechet_list)
 '''
 def frechet_plain(song,hum):
