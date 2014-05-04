@@ -4,23 +4,30 @@ from sys import *
 from subprocess import *
 from os import *
 from string import *
-from models import title_from_path
+from models import *
 import platform
+
+# default path for folder containing .csv files for our song database
+song_csv_path = "song_csv/"
+
+# default path for folder containing .csv files for our hums
+hum_csv_path = "hum_csv/"
 
 # input_path is a folder if Hum = False
 # input_path is a filename if Hum = True
-# input_path should be unix filepath with "/" not "\"; if error, place hum audio file in the same directory as this python file
+# place hum audio file in the same directory as this python file
 def process(input_path, Hum=True):
 	# output filepath, needed to pull .csv file for matching
-	output_path = title_from_path(input_path) + "_vamp_mtg-melodia_melodia_melody.csv"
+	# melodia plugin adds the tag below to each .csv
+	output_path = title_from_path(input_path) + melodia_tag
 
-	# default database for Hums
-	db_path = "hum_database"
-
-	# if not Hum, change database path and recurse through song directory
+	# if not Hum, change database folder path (folder containing .csv files) and recurse through song directory provided
 	if Hum == False:
-		db_path = "song_database"
+		db_path = song_csv_path
 		input_path = input_path + " -r"
+	else:
+		# default .csv folder for Hums
+		db_path = hum_csv_path
 
 	# check platform for Windows or Darwin (OSX), and change command-line command as necessary
 	platform_name = platform.platform()
@@ -36,7 +43,7 @@ def process(input_path, Hum=True):
 
 	# code obtained from subprocess documentation 
 	# https://docs.python.org/2/library/subprocess.html#module-subprocess
-	# runs shell argument
+	# runs shell argument for Sonic Annotator
 	try:
 	    retcode = call(shell_arg, shell=True)
 	    if retcode < 0:
