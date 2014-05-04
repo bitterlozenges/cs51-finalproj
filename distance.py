@@ -57,7 +57,5 @@ def frechet(song, hum, starts):
 		frechet_list = [float_max]
 
 	# return the minimum frechet value for a hum matched to each section
-	# the print statement lets the user see progress; will print out one frechet list per song
 	return min(frechet_list)
-
 
