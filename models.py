@@ -84,7 +84,7 @@ class Hum(Music):
 
 		def melody_transpose(melody):
 			# function for transposing a tick by octave octaves 
-			def tick_transpose(tick, octave):
+			def tick_transpose(tick):
 				if tick[1] == 0:
 					return tick
 				new_midi = (float(octave) * 12) + tick[1]
@@ -95,7 +95,7 @@ class Hum(Music):
 				return melody
 			else:
 				for tick in melody:
-					new_melody.append(tick_transpose(tick,octave))
+					new_melody.append(tick_transpose(tick))
 				return new_melody
 
 		#	do the frechet distance

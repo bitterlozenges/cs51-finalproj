@@ -45,7 +45,8 @@ def process(input_path, Hum=True):
 	# https://docs.python.org/2/library/subprocess.html#module-subprocess
 	# runs shell argument for Sonic Annotator
 	try:
-	    retcode = call(shell_arg, shell=True)
+	    retcode = call(str(shell_arg), shell=True)
+	    print str(shell_arg)
 	    if retcode < 0:
 	        print >>sys.stderr, "Child was terminated by signal", -retcode
 	    return output_path
