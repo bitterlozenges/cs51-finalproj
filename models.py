@@ -88,9 +88,12 @@ class Hum(Music):
 				return (tick[0],new_midi)
 			
 			new_melody = []
-			for tick in melody:
-				new_melody.append(tick_transpose(tick,octave))
-			return new_melody
+			if octave == 0:
+				return melody
+			else:
+				for tick in melody:
+					new_melody.append(tick_transpose(tick,octave))
+				return new_melody
 
 		#	do the frechet distance
 		#	store the song name and frechet distance stuff
