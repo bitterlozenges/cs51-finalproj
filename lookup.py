@@ -5,7 +5,6 @@ from process import *
 from models import *
 from database import db_session
 
-
 # argument parser to ensure octaves is an integer, and that filepath is a string, and a optional db flag to display database"
 parser = argparse.ArgumentParser(description='Matches an audio file to the database.')
 parser.add_argument("--path", dest="path", metavar="path", type = str, help="A filepath for the hum audio file you wish to match.")
@@ -31,5 +30,7 @@ if args.db:
 	print "Songs in your database:"
 	for song in songs:
 		print title_from_path(song.file_path)
-else:	
+elif args.path == None: 
+	print "Please execute 'python lookup.py -h' for help, and enter a valid filepath."
+else:
 	main(args.path,args.octaves)
