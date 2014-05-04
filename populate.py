@@ -5,9 +5,10 @@ from database import db_session, init_db
 from process import *
 import os
 import sys
+
 """
 This script deletes any old instances of the database, creates a new one,
-then repopulates it with the files in folder_path
+then repopulates it with the files in song_csv_path, our database of song .csv files
 """
 
 #the path for the directory containing songs to be added to our db
@@ -43,16 +44,24 @@ def insert_directory_db(directory):
 		if not ".csv" in f:
 			continue
 		# adjoin the original directory to the filepath
-		path = directory + "\\" + f
+		path = directory + f
 		insert_song_db(path.strip('\t\n\r'))
 	db_session.commit()
 	return
 
-#remove the old database file
+# remove the old database file
 if os.path.isfile("finalproj.db"):
 	os.remove("finalproj.db")
-#initialize the database
+
+# initialize the database
 init_db()
-#populate it with our things
+
+# populate 
+
+# first, process each audio file into a .csv
 process(folder_path, False)
+
+# add each .csv to our db
+# because the .csv files in song_csv_path are not deleted, 
+# old .csv files will be kept in our database each time this script is called
 insert_directory_db(song_csv_path)

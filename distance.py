@@ -39,8 +39,8 @@ def frechet(song, hum, starts):
 			# min_val = (euclid((x,hum[x][1]),(x,song_clip[x][1])),song_clip[x][0],x)
 			# this initial min_val normalizes the timestamps
 			min_val = (euclid((hum[x][0] - hum[0][0],hum[x][1]),((song_clip[x][0]-song_clip[0][0]),song_clip[x][1])),song_clip[x][0],x)
-			# iterate over song list to calculate minimum euclidean distance
 			
+			# iterate over song list to calculate minimum euclidean distance
 			for y in xrange(max((x-bucket_size),0),min(x+bucket_size,len(song_clip))):
 				new_dist = (euclid((hum[x][0]-hum[0][0],hum[x][1]),(song_clip[y][0]-song_clip[0][0],song_clip[y][1])),song_clip[y][0],y)
 				if new_dist[0] < min_val[0]:
