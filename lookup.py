@@ -3,6 +3,7 @@ import argparse
 import os
 from process import *
 from models import *
+from database import db_session
 
 
 # argument parser to ensure octaves is an integer, and that filepath is a string
@@ -26,6 +27,12 @@ def main(file_path, *octave):
 		print str(x+1) + ". " + title_from_path(song[0])
 
 main(args.path,args.octaves)
+
+if sys.argv[1]=="database":
+	songs = db_session.query(Song).all()
+	print "Songs in your database:"
+	for song in songs:
+		print title_from_path(song.file_path)
 '''
 if len(sys.argv) > 2:
 	main(sys.argv[1],sys.argv[2])
