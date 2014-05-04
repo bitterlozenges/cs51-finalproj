@@ -59,5 +59,3 @@ def frechet(song, hum, starts):
 	# return the minimum frechet value for a hum matched to each section
 	return min(frechet_list)
 
-		
-

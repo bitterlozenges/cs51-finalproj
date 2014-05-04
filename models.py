@@ -7,6 +7,9 @@ from analyze import *
 import ntpath
 from distance import frechet
 
+# melodia filename tag
+melodia_tag = "_vamp_mtg-melodia_melodia_melody.csv"
+
 class Music(object):
 	def __init__(self,file_path,melody=None,diffs=None):
 		self.file_path = file_path
@@ -100,16 +103,23 @@ class Hum(Music):
 		for song in dict_songs:
 			diff = frechet(str_to_arr(song.melody),melody_transpose(str_to_arr(self.melody)),str_to_arr(song.starts))
 			title = title_from_path(song.file_path)
+			# prints message to update user on progress
 			print title + " processed."
 			song_diffs.append((title,diff))
 		
-		# get the top 10 shortest lengths of song in the dictionary ranked by difference
+		# get the top 5 shortest lengths of song in the dictionary ranked by difference
 		sorted_diffs = sorted(song_diffs,key=lambda song: song[1])
-		return sorted_diffs[:10]
+		return sorted_diffs[:5]
+
+#remove melodia tag from a filename
+def remove_tag(name):
+	if melodia_tag in name:
+		name = name.replace(melodia_tag,"")
+	return name
 
 #to get a nice version of the title - minus all the filepath bits
 def title_from_path(path):
-	return ntpath.basename(path).split(".")[0]
+	return ntpath.basename(remove_tag(path)).split(".")[0]
 
 # turns melody string into array
 def str_to_arr(str):
