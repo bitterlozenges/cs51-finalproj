@@ -5,14 +5,25 @@ from database import db_session, init_db
 from process import *
 import os
 import sys
+import argparse
 
 """
 This script deletes any old instances of the database, creates a new one,
-then repopulates it with the files in song_csv_path, our database of song .csv files
+then repopulates it with the files in song_csv_path, our database of song 
+.csv files
 """
 
+parser = argparse.ArgumentParser(description='Populates the database.')
+parser.add_argument("path", metavar="path", type = str, 
+	help="A filepath for the folder containing all songs to add.\n" + \
+	"WARNING: Sonic Annotator will find songs in ALL" + \
+	" subdirectories of this folder, so do not use a high-level" + \
+	" system folder.")
+
+args = parser.parse_args()
+
 #the path for the directory containing songs to be added to our db
-folder_path = str(sys.argv[1])
+folder_path = args.path
 
 #method for inserting a single song into our db given the file_path
 def insert_song_db(file):

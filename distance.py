@@ -8,7 +8,8 @@ float_max = 1.7976931348623157e+308
 # what "bucket" in the song clip we restrict our search for the closet point to
 bucket_size = 100 / compression_factor
 
-# We experimented with weighting the distance using constants, but this did not affect results significantly
+# We experimented with weighting the distance using constants, but this did not
+# affect results significantly
 time_weight = 1.0
 freq_weight = 1.0
 
@@ -38,19 +39,19 @@ def frechet(song, hum, starts):
 			# this initial min_val uses the index in the distance	
 			# min_val = (euclid((x,hum[x][1]),(x,song_clip[x][1])),song_clip[x][0],x)
 			# this initial min_val normalizes the timestamps
-			min_val = (euclid((hum[x][0] - hum[0][0],hum[x][1]),((song_clip[x][0]-song_clip[0][0]),song_clip[x][1])),song_clip[x][0],x)
+			min_val = euclid((hum[x][0] - hum[0][0],hum[x][1]),((song_clip[x][0]
+				-song_clip[0][0]),song_clip[x][1]))
 			
 			# iterate over song list to calculate minimum euclidean distance
 			for y in xrange(max((x-bucket_size),0),min(x+bucket_size,len(song_clip))):
-				new_dist = (euclid((hum[x][0]-hum[0][0],hum[x][1]),(song_clip[y][0]-song_clip[0][0],song_clip[y][1])),song_clip[y][0],y)
-				if new_dist[0] < min_val[0]:
+				new_dist = euclid((hum[x][0]-hum[0][0],hum[x][1]),(song_clip[y][0]
+					-song_clip[0][0],song_clip[y][1]))
+				if new_dist < min_val:
 					min_val = new_dist
 			min_list.append(min_val)
-			
-			# print statement for debugging purposes
-			# print "Distance at times (" + str(hum[x][0]) + "," + str(min_val[1]) + ") at indices (" + str(x) + "," + str(min_val[2]) + ") is " + str(min_val[0])
-
-		frechet_list.append(sum(pair[0] for pair in min_list))
+	
+		# append sum to pair
+		frechet_list.append(sum(min_list))
 	
 	# handles the case of no matches, i.e. hum is longer than entire song
 	if len(frechet_list) == 0:

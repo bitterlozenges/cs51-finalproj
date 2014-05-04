@@ -41,8 +41,8 @@ class Music(object):
 
 class Song(Music):
 	"""
-	Represents a song, that, when initialized, generates the main melody, the start
-	points of a song, and generates the difference array
+	Represents a song, that, when initialized, generates the main melody, 
+	the start points of a song, and generates the difference array
 	"""
 	def __init__(self,file_path,melody=None,diffs=None,starts=None):
 
@@ -109,14 +109,16 @@ class Hum(Music):
 		#	do the frechet distance
 		#	store the song name and frechet distance values
 		for song in dict_songs:
-			diff = frechet(str_to_arr(song.melody),midi_array,str_to_arr(song.starts))
+			diff = frechet(str_to_arr(song.melody),midi_array,
+							str_to_arr(song.starts))
 			title = title_from_path(song.file_path)
 			song_diffs.append((title,diff))
 
 			# prints message to update user on progress
 			print '"' + title + '"' + " processed."
 
-		# get the top 5 shortest lengths of song in the dictionary ranked by difference
+		# get the top 5 shortest lengths of song in the dictionary
+		# ranked by difference
 		sorted_diffs = sorted(song_diffs,key=lambda song: song[1])
 		return sorted_diffs[:5]
 

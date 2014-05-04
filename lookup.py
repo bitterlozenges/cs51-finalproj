@@ -5,11 +5,16 @@ from process import *
 from models import *
 from database import db_session
 
-# argument parser to ensure octaves is an integer, and that filepath is a string, and a optional db flag to display database"
-parser = argparse.ArgumentParser(description='Matches an audio file to the database.')
-parser.add_argument("--path", dest="path", metavar="path", type = str, help="A filepath for the hum audio file you wish to match.")
-parser.add_argument("--oct", dest="octaves", metavar="octaves", type = int, help="An integer number of octaves.", default=0)
-parser.add_argument("--db", action = "store_true", help="Displays the songs in your database.")
+# argument parser to ensure octaves is an integer, and that filepath is a 
+# string, and a optional db flag to display database"
+parser = argparse.ArgumentParser(description=
+									'Matches an audio file to the database.')
+parser.add_argument("--path", dest="path", metavar="path", type = str, 
+	help="A filepath for the hum audio file you wish to match.")
+parser.add_argument("--oct", dest="octaves", metavar="octaves", type = int, 
+	help="An integer number of octaves.", default=0)
+parser.add_argument("--db", action = "store_true", 
+	help="Displays the songs in your database.")
 
 args = parser.parse_args()
 
@@ -31,6 +36,6 @@ if args.db:
 	for song in songs:
 		print title_from_path(song.file_path)
 elif args.path == None: 
-	print "Please execute 'python lookup.py -h' for help, and enter a valid filepath."
+	print "Please execute 'python lookup.py -h' for help."
 else:
 	main(args.path,args.octaves)

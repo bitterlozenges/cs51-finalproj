@@ -9,7 +9,8 @@ engine.echo = False
 
 metadata = MetaData(engine)
 
-db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
+db_session = scoped_session(sessionmaker(autocommit=False, 
+											autoflush=False, bind=engine))
 
 
 def init_db():

@@ -8,8 +8,8 @@ import math
 ticks_per_second = 338 // 3
 compression_factor = 5
 
-#from the filepath 'file', return a (float,float) array containing the melody information
-# in the form of (timescale, midiscore)
+# from the filepath 'file', return a (float,float) array containing the melody 
+# information in the form of (timescale, midiscore)
 def get_midi(file):
 	midi_array = []
 	with open(file,"rb") as raw_melody:
@@ -27,7 +27,8 @@ def get_midi(file):
 		midi_array = midi_array[0::compression_factor]		
 	return midi_array
 
-#from the midi array, generate a float array of midi value differences collected at regular intervals
+# from the midi array, generate a float array of midi value differences
+# collected at regular intervals
 def diffs_midi(midi):
 	diff_array = []	
 	# get first differences of midi array	
@@ -38,8 +39,9 @@ def diffs_midi(midi):
 	return diff_array
 
 
-# from the midi array, returns int array of indicies of start points which represent beginning of melodic lines
-# here we are using the constant of 1 start every 338/2 points = 0.5 seconds
+# from the midi array, returns int array of indicies of start points which 
+# represent beginning of melodic lines here we are using the constant of 1 
+# start every 338/2 points = 0.5 seconds
 def get_starts(midi):
 	starts = []
 	for x in xrange(0,len(midi) // ticks_per_second):

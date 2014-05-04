@@ -21,10 +21,12 @@ def process(input_path, Hum=True):
 	# melodia plugin adds the tag below to each .csv
 	output_path = title_from_path(input_path) + melodia_tag
 
-	# adds "" around input path and replaces "\" with "/" to ensure the path works in shell
+	# adds "" around input path and replaces "\" with "/" to ensure the
+	# path works in shell
 	input_path = '"' + input_path.replace("\\","/") + '"'
 
-	# if not Hum, change database folder path (folder containing .csv files) and recurse through song directory provided
+	# if not Hum, change database folder path (folder containing .csv files) 
+	# and recurse through song directory provided
 	if Hum == False:
 		db_path = song_csv_path
 		input_path = input_path + " -r"
@@ -32,7 +34,8 @@ def process(input_path, Hum=True):
 		# default .csv folder for Hums
 		db_path = hum_csv_path
 
-	# check platform for Windows or Darwin (OSX), and change command-line command as necessary
+	# check platform for Windows or Darwin (OSX), and change command-line 
+	# command as necessary
 	platform_name = platform.platform()
 	if "Darwin" in platform_name:
 		os_path = "sonic_annotator/sonic-annotator"
@@ -42,7 +45,8 @@ def process(input_path, Hum=True):
 		os_path = "sonic_annotator/sonic-annotator"
 
 	# build shell argument for Sonic Annotator
-	shell_arg = os_path + " -d vamp:mtg-melodia:melodia:melody " + input_path + " -w csv --csv-basedir " + db_path
+	shell_arg = os_path + " -d vamp:mtg-melodia:melodia:melody " + \
+				input_path + " -w csv --csv-basedir " + db_path
 
 	# code obtained from subprocess documentation 
 	# https://docs.python.org/2/library/subprocess.html#module-subprocess
