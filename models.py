@@ -82,6 +82,7 @@ class Hum(Music):
 		dict_songs = db_session.query(Song).all()
 		song_diffs = []
 
+		# function for transposing the melody by octave octaves if necessary
 		def melody_transpose(melody):
 
 			# function for transposing a tick by octave octaves 
@@ -111,11 +112,10 @@ class Hum(Music):
 			diff = frechet(str_to_arr(song.melody),midi_array,str_to_arr(song.starts))
 			title = title_from_path(song.file_path)
 			song_diffs.append((title,diff))
+
 			# prints message to update user on progress
 			print '"' + title + '"' + " processed."
 
-			
-		
 		# get the top 5 shortest lengths of song in the dictionary ranked by difference
 		sorted_diffs = sorted(song_diffs,key=lambda song: song[1])
 		return sorted_diffs[:5]
