@@ -112,7 +112,7 @@ class Hum(Music):
 			title = title_from_path(song.file_path)
 			song_diffs.append((title,diff))
 			# prints message to update user on progress
-			print title + " processed."
+			print '"' + title + '"' + " processed."
 
 			
 		

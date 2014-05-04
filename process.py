@@ -43,7 +43,6 @@ def process(input_path, Hum=True):
 
 	# build shell argument for Sonic Annotator
 	shell_arg = os_path + " -d vamp:mtg-melodia:melodia:melody " + input_path + " -w csv --csv-basedir " + db_path
-	print shell_arg
 
 	# code obtained from subprocess documentation 
 	# https://docs.python.org/2/library/subprocess.html#module-subprocess
