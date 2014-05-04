@@ -98,10 +98,14 @@ class Hum(Music):
 					new_melody.append(tick_transpose(tick,octave))
 				return new_melody
 
+		if octave != 0:
+			midi_array = melody_transpose(str_to_arr(self.melody))
+		else: 
+			midi_array = str_to_arr(self.melody)
 		#	do the frechet distance
 		#	store the song name and frechet distance stuff
 		for song in dict_songs:
-			diff = frechet(str_to_arr(song.melody),melody_transpose(str_to_arr(self.melody)),str_to_arr(song.starts))
+			diff = frechet(str_to_arr(song.melody),midi_array,str_to_arr(song.starts))
 			title = title_from_path(song.file_path)
 			# prints message to update user on progress
 			print title + " processed."
