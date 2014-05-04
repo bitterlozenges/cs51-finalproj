@@ -21,6 +21,9 @@ def process(input_path, Hum=True):
 	# melodia plugin adds the tag below to each .csv
 	output_path = title_from_path(input_path) + melodia_tag
 
+	# adds "" around input path to ensure the path works in shell
+	input_path = '"' + input_path + '"'
+
 	# if not Hum, change database folder path (folder containing .csv files) and recurse through song directory provided
 	if Hum == False:
 		db_path = song_csv_path
@@ -40,13 +43,13 @@ def process(input_path, Hum=True):
 
 	# build shell argument
 	shell_arg = os_path + " -d vamp:mtg-melodia:melodia:melody " + input_path + " -w csv --csv-basedir " + db_path
+	print shell_arg
 
 	# code obtained from subprocess documentation 
 	# https://docs.python.org/2/library/subprocess.html#module-subprocess
 	# runs shell argument for Sonic Annotator
 	try:
-	    retcode = call(str(shell_arg), shell=True)
-	    print str(shell_arg)
+	    retcode = call(shell_arg, shell=True)
 	    if retcode < 0:
 	        print >>sys.stderr, "Child was terminated by signal", -retcode
 	    return output_path
